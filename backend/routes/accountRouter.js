@@ -15,7 +15,7 @@ accountRouter.get('/balance',isLogin,async (req,res)=>{
     })
     console.log(req.userId);
     
-    console.log(account);
+    // console.log(account);
     
     res.json({
         balance:account.balance

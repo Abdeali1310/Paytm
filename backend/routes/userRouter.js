@@ -6,10 +6,21 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = require("../config");
 const { isLogin } = require("../middleware");
 
-userRouter.get('/', (req, res) => {
-    res.send("User route")
+//get current user
+userRouter.get('/',isLogin,async(req,res)=>{
+    if(req.userId){
+        
+        const userId = req.userId;
+        const user = await User.findById(userId)
+    
+        res.status(200).json(user)
+    }
+    else{
+        res.json({
+            msg:"Signin is required"
+        })
+    }
 })
-
 //signup
 userRouter.post('/signup', async (req, res) => {
     const body = req.body
@@ -133,5 +144,7 @@ userRouter.get('/bulk',async (req, res) => {
         }))
     })
 })
+
+
 
 module.exports = userRouter
